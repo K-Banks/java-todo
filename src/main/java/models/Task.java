@@ -10,11 +10,21 @@ public class Task {
     private boolean completed;
     private LocalDateTime createdAt;
     private int id;
+    private int categoryId;
 
-    public Task(String description){
+    public Task(String description, int categoryId){
         this.description = description;
         this.completed = false;
         this.createdAt = LocalDateTime.now();
+        this.categoryId = categoryId;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public void setDescription(String description) {
@@ -32,13 +42,13 @@ public class Task {
         Task task = (Task) o;
         return completed == task.completed &&
                 id == task.id &&
-                Objects.equals(description, task.description);
+                Objects.equals(description, task.description) &&
+                Objects.equals(categoryId, task.categoryId);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(description, completed, id);
+        return Objects.hash(description, completed, id, categoryId);
     }
 
     public String getDescription() {
