@@ -2,11 +2,11 @@ package models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Task {
 
     private String description;
-    private static ArrayList<Task> instances = new ArrayList<>();
     private boolean completed;
     private LocalDateTime createdAt;
     private int id;
@@ -15,20 +15,34 @@ public class Task {
         this.description = description;
         this.completed = false;
         this.createdAt = LocalDateTime.now();
-        instances.add(this);
-        this.id = instances.size();
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return completed == task.completed &&
+                id == task.id &&
+                Objects.equals(description, task.description);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(description, completed, id);
     }
 
     public String getDescription() {
         return description;
-    }
-
-    public static ArrayList<Task> getAll(){
-        return instances;
-    }
-
-    public static void clearAllTasks(){
-        instances.clear();
     }
 
     public boolean getCompleted(){
@@ -41,17 +55,5 @@ public class Task {
 
     public int getId() {
         return id;
-    }
-
-    public static Task findById(int id){
-        return instances.get(id-1); //why minus 1? See if you can figure it out.
-    }
-
-    public void update(String content) {
-        this.description = content;
-    }
-
-    public void deleteTask(){
-        instances.remove(id-1); //same reason
     }
 }
